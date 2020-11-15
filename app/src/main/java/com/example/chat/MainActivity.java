@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final String KEY_MAINACTIVITY = "KEY_MAINACTIVITY";
 
+
     private SharedPreferences sharedPreferences;
     private String valor;
     private Intent intent;
@@ -52,48 +53,51 @@ public class MainActivity extends AppCompatActivity {
             }
 
             intent = new Intent(MainActivity.this, MainActivity2.class);
-            startActivity(intent,);
+            startActivity(intent);
         });
         Log.i(LOG_TAG, "onCreate");
     }
+
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1){
-            if (resultCode == Activity.RESULT_OK){
-                String resposta = data.getStringExtra(KEY_RESPOSTA);
+        if (resultCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String resposta = data.getStringExtra(MainActivity2.KEY_RESPOSTA);
                 textView.setText(resposta);
             }
         }
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i(LOG_TAG, "onStart");
         valor = sharedPreferences.getString(MainActivity.KEY_MAINACTIVITY, "Não tem dados no banco");
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Log.i(LOG_TAG, "onResume");
         textView.setText(valor);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        Log.i(LOG_TAG,"onPause");
+        Log.i(LOG_TAG, "onPause");
     }
 
     @Override
-    protected void onStop () {
+    protected void onStop() {
         super.onStop();
         Log.i(LOG_TAG, "onStop");
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        Log.i(LOG_TAG,"onDestroy");
+        Log.i(LOG_TAG, "onDestroy");
     }
+}
