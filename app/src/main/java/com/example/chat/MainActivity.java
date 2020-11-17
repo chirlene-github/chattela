@@ -16,17 +16,22 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String KEY_INTENT = "CHAVE MENSAGEM";
-    public static final String TAG_KEY_MESSAGE = "MESSAGE_KEY";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    public static final String KEY_MAINACTIVITY = "KEY_MAINACTIVITY";
+
+    private EditText ed_mensagem;
+    TextView textView;
+     TextView textView2;
 
 
     private SharedPreferences sharedPreferences;
+
+
+    public final static String KEY_INTENT = "CHAVE MENSAGEM";
+    public static final String TAG_KEY_MESSAGE = "MESSAGE_KEY";
+    public static final String KEY_MAINACTIVITY = "KEY_MAINACTIVITY";
+
     private String valor;
     private Intent intent;
-    TextView textView;
-    TextView textView2;
 
 
     @Override
@@ -36,44 +41,48 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("TAG_PREFERENCES", Context.MODE_PRIVATE);
 
-        final EditText ed_mensagem = findViewById(R.id.ed_mensagem);
-        textView = findViewById(R.id.tv_recebida);
-        textView2 = findViewById(R.id.tv_recebida2);
         Button button = findViewById(R.id.bt_enviar);
+        ed_mensagem = findViewById(R.id.ed_mensagem);
+        textView2 = findViewById(R.id.tv_mensagem);
+        textView = findViewById(R.id.tv_resposta);
+
+        textView = findViewById(R.id.tv_mensagemfixa);
+
 
         button.setOnClickListener((View) -> {
-            String texto = ed_mensagem.getText().toString();
-            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-            intent.putExtra(TAG_KEY_MESSAGE, texto);
-            if (!texto.isEmpty()) {
-                ed_mensagem.setText(texto);
+            String mensagem = ed_mensagem.getText().toString();
+          //  intent.putExtra(TAG_KEY_MESSAGE, mensagem);
+            if (!mensagem.isEmpty()) {
+                ed_mensagem.setText(mensagem);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(KEY_MAINACTIVITY, texto);
+                editor.putString(KEY_MAINACTIVITY, mensagem);
                 editor.apply();
             }
 
             intent = new Intent(MainActivity.this, MainActivity2.class);
+            //startActivityForResult(intent, 1000);
             startActivity(intent);
         });
         Log.i(LOG_TAG, "onCreate");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                String resposta = data.getStringExtra(MainActivity2.KEY_RESPOSTA);
-                textView.setText(resposta);
-            }
-        }
-    }
+
+   // @Override
+    //protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+      //  super.onActivityResult(requestCode, resultCode, data);
+        //if (resultCode == 1) {
+          //  if (resultCode == Activity.RESULT_OK) {
+            //    String resposta = data.getStringExtra(MainActivity2.KEY_RESPOSTA);
+              //  textView.setText(resposta);
+            //}
+        //}
+    //}
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.i(LOG_TAG, "onStart");
-        valor = sharedPreferences.getString(MainActivity.KEY_MAINACTIVITY, "Não tem dados no banco");
+        valor = sharedPreferences.getString(MainActivity2.KEY_RESPOSTA, "Não tem dados no banco");
     }
 
     @Override
